@@ -177,67 +177,54 @@ type="video/mp4">
     </div>
     <audio id="myAudio">
 </div>
-    <audio id="myAudio">
-</div>
+
 <!-- 你剩下其他图片、文字全部正常保留 -->
 
 
 <!-- =========【重点！JS代码放在 </body> 上面】========= -->
 <script>
-const songList = [
-    { name:"gotten", src:"gotten.mp3" },
-    { name:"吹喇叭",src:"clb.mp3"}
-];
+const song = { name:"吹喇叭", src:"clb.mp3" };
 
 const audio = document.getElementById("myAudio");
 const playBtn = document.getElementById("playBtn");
-const prevBtn = document.getElementById("prev");
-const nextBtn = document.getElementById("next");
 const songNameText = document.getElementById("song-name");
 const volumeSlider = document.getElementById("volumeSlider");
 
-let currentIndex = 0;
 let isPlaying = false;
+let firstPlay = false;
 
-function loadSong(index){
-    audio.src = songList[index].src;
-    songNameText.innerText = songList[index].name;
+function loadSong(){
+    audio.src = song.src;
+    songNameText.innerText = song.name;
 }
 
-// 绑定播放按钮
 playBtn.addEventListener("click",()=>{
-    if(!audio.src) loadSong(currentIndex);
+    if(!audio.src) loadSong();
     if(isPlaying){
         audio.pause();
         playBtn.innerText = "▶ 播放";
     }else{
         audio.play();
         playBtn.innerText = "⏸ 暂停";
+        firstPlay = true;
+        audio.volume = parseFloat(volumeSlider.value);
     }
     isPlaying = !isPlaying;
 });
 
-// 上一首
-prevBtn.addEventListener("click",()=>{
-    currentIndex = (currentIndex - 1 + songList.length) % songList.length;
-    loadSong(currentIndex);
-    if(isPlaying) audio.play();
-});
-
-// 下一首
-nextBtn.addEventListener("click",()=>{
-    currentIndex = (currentIndex + 1) % songList.length;
-    loadSong(currentIndex);
-    if(isPlaying) audio.play();
-});
-
-// 音量调节
 volumeSlider.addEventListener("input",()=>{
-    audio.volume = volumeSlider.value;
-})
-audio.volume = 0.1;
-</script>
+    if(firstPlay){
+        let val = parseFloat(volumeSlider.value);
+        audio.volume = val;
+    }
+});
 
+// 歌曲播放结束自动复位
+audio.addEventListener("ended",()=>{
+    isPlaying = false;
+    playBtn.innerText = "▶ 播放";
+});
+</script>
 
 
 
