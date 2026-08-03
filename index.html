@@ -187,7 +187,7 @@ type="video/mp4">
 const songList = [
     { name:"gotten", src:"gotten.mp3" },
     { name:"歌曲二号", src:"sky.mp3" },
-    { name:"歌曲三号", src:"loyalty.mp3" }
+    { name:"歌曲三号", src:"loyalty.mp3" },
     { name:"吹喇叭",src:"clb.mp3"}
 ];
 
@@ -201,54 +201,44 @@ const volumeSlider = document.getElementById("volumeSlider");
 let currentIndex = 0;
 let isPlaying = false;
 
-audio.volume = volumeSlider.value;
-
 function loadSong(index){
     audio.src = songList[index].src;
     songNameText.innerText = songList[index].name;
 }
 
-function togglePlay(){
+// 绑定播放按钮
+playBtn.addEventListener("click",()=>{
+    if(!audio.src) loadSong(currentIndex);
     if(isPlaying){
         audio.pause();
         playBtn.innerText = "▶ 播放";
     }else{
         audio.play();
-        playBtn.innerText = "❚❚ 暂停";
+        playBtn.innerText = "⏸ 暂停";
     }
     isPlaying = !isPlaying;
-}
-
-function prevSong(){
-    currentIndex--;
-    if(currentIndex < 0) currentIndex = songList.length - 1;
-    loadSong(currentIndex);
-    audio.play();
-    playBtn.innerText = "❚❚ 暂停";
-    isPlaying = true;
-}
-
-function nextSong(){
-    currentIndex++;
-    if(currentIndex >= songList.length) currentIndex = 0;
-    loadSong(currentIndex);
-    audio.play();
-    playBtn.innerText = "❚❚ 暂停";
-    isPlaying = true;
-}
-
-volumeSlider.addEventListener("input", function(){
-    audio.volume = this.value;
 });
 
-audio.addEventListener("ended", nextSong);
+// 上一首
+prevBtn.addEventListener("click",()=>{
+    currentIndex = (currentIndex - 1 + songList.length) % songList.length;
+    loadSong(currentIndex);
+    if(isPlaying) audio.play();
+});
 
-playBtn.onclick = togglePlay;
-prevBtn.onclick = prevSong;
-nextBtn.onclick = nextSong;
+// 下一首
+nextBtn.addEventListener("click",()=>{
+    currentIndex = (currentIndex + 1) % songList.length;
+    loadSong(currentIndex);
+    if(isPlaying) audio.play();
+});
 
-loadSong(currentIndex);
-</script></strong>
+// 音量调节
+volumeSlider.addEventListener("input",()=>{
+    audio.volume = volumeSlider.value;
+})
+audio.volume = 0.1;
+</script>
 
 
 
