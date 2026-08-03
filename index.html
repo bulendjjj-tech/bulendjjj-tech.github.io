@@ -71,6 +71,30 @@
             z-index: -1;
             pointer-events: none;
         }
+        /* 播放器 */
+        #song-name{
+            font-size:22px
+            color:#fff;
+            margin-bottom:12px
+        }
+        .player-buttons button{
+            font-size:18px;
+            padding:8px 16px;
+            margin:0 6px;
+            border-radius:999px;
+            border:none;
+            cursor:pointer;
+        }
+        .volum-box{
+            margin-top:14px;
+            color:#fff;
+            font-size:18px;
+        }
+        #volumeSlider{
+            width:220px;
+            margin-left:10px;
+            cursor:pointer;
+        }</strong>
     </style>
 </head>
 <body>
@@ -139,5 +163,101 @@ type="video/mp4">
     <br>    
     
     <div class="price-item"> 购买需要提供邮箱  如有账号丢失 死号等可凭邮箱申请售后</div>
+
+    <br>
+    <br>
+    <strong><div class="music-player">
+    <div id="song-name">暂无歌曲</div>
+    <div class="player-buttons">
+        <button id="prev">⬅ 上一首</button>
+        <button id="playBtn">▶ 播放</button>
+        <button id="next">下一首 ➡</button>
+    </div>
+    <div class="volume-box">
+        <span>🔊音量</span>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.1">
+    </div>
+    <audio id="myAudio">
+    </div>
+    </strong>
+
+<!-- 你剩下其他图片、文字全部正常保留 -->
+
+
+<!-- =========【重点！JS代码放在 </body> 上面】========= -->
+<strong><script>
+const songList = [
+    { name:"gotten", src:"gotten.mp3" },
+    { name:"歌曲二号", src:"sky.mp3" },
+    { name:"歌曲三号", src:"loyalty.mp3" }
+    { name:"吹喇叭",src:"clb.mp3"}
+];
+
+const audio = document.getElementById("myAudio");
+const playBtn = document.getElementById("playBtn");
+const prevBtn = document.getElementById("prev");
+const nextBtn = document.getElementById("next");
+const songNameText = document.getElementById("song-name");
+const volumeSlider = document.getElementById("volumeSlider");
+
+let currentIndex = 0;
+let isPlaying = false;
+
+audio.volume = volumeSlider.value;
+
+function loadSong(index){
+    audio.src = songList[index].src;
+    songNameText.innerText = songList[index].name;
+}
+
+function togglePlay(){
+    if(isPlaying){
+        audio.pause();
+        playBtn.innerText = "▶ 播放";
+    }else{
+        audio.play();
+        playBtn.innerText = "❚❚ 暂停";
+    }
+    isPlaying = !isPlaying;
+}
+
+function prevSong(){
+    currentIndex--;
+    if(currentIndex < 0) currentIndex = songList.length - 1;
+    loadSong(currentIndex);
+    audio.play();
+    playBtn.innerText = "❚❚ 暂停";
+    isPlaying = true;
+}
+
+function nextSong(){
+    currentIndex++;
+    if(currentIndex >= songList.length) currentIndex = 0;
+    loadSong(currentIndex);
+    audio.play();
+    playBtn.innerText = "❚❚ 暂停";
+    isPlaying = true;
+}
+
+volumeSlider.addEventListener("input", function(){
+    audio.volume = this.value;
+});
+
+audio.addEventListener("ended", nextSong);
+
+playBtn.onclick = togglePlay;
+prevBtn.onclick = prevSong;
+nextBtn.onclick = nextSong;
+
+loadSong(currentIndex);
+</script></strong>
+
+
+
+
+
+
+
+        
 </body>
 </html>
