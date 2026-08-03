@@ -15,14 +15,8 @@
             padding: 50px 15px;
             font-family: "微软雅黑", sans-serif;
             line-height: 1.8;
-        
-            /* 背景图片设置 */
-            background-image: url("img03.jpg");
-            background-repeat: no-repeat;    /* 图片不重复平铺 */
-            background-size: cover;         /* 铺满整个屏幕 */
-            background-position: center;     /* 图片居中 */
-            background-attachment: fixed;    /* 滚动页面背景不动 */
-}
+     
+        }
         h1 {
             color: #2c3e50;
             font-size: 48px;
@@ -48,9 +42,34 @@
             text-align: center;
             word-break: break-word;
         }
+        #bgvideo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -2;
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background-color: rgba(0, 0, 0, 0.35);
+            z-index: -1;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
+<video autoplay muted loop
+playsinline id ="bgvideo">
+    <source src="bg.mp4"
+type="video/mp4">
+</video>
     <h1>telegram账号出售 💥</h1>
     <div class="subtitle">以诚待人 以信立业 永久售后保障 质保</div>
     <div class="contact">购买可以加qq: 3437991511 / 3675121928 / 3581921750/
