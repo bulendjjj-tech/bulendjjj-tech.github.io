@@ -166,7 +166,7 @@ type="video/mp4">
 
     <br>
     <br>
-    <strong><div class="music-player">
+    <div class="music-player">
     <div id="song-name">暂无歌曲</div>
     <div class="player-buttons">
         <button id="prev">⬅ 上一首</button>
@@ -178,14 +178,12 @@ type="video/mp4">
         <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.1">
     </div>
     <audio id="myAudio">
-    </div>
-    </strong>
-
+</div>
 <!-- 你剩下其他图片、文字全部正常保留 -->
 
 
 <!-- =========【重点！JS代码放在 </body> 上面】========= -->
-<strong><script>
+<script>
 const songList = [
     { name:"gotten", src:"gotten.mp3" },
     { name:"歌曲二号", src:"sky.mp3" },
